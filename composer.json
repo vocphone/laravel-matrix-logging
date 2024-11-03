@@ -1,0 +1,21 @@
+{
+    "name": "vocphone/laravel-matrix-logging",
+    "description": "Allow logging from Laravel to Matrix/Synapse",
+    "type": "library",
+    "require": {
+        "meet-kinksters/php-matrix-sdk": "^1.0@dev",
+        "monolog/monolog": "^1.12|^2.0|^3.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vocphone\\LaravelMatrixLogging\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "VOCPhone",
+            "email": "support@vocphone.com"
+        }
+    ]
+}
