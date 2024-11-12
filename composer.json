@@ -3,7 +3,7 @@
     "description": "Allow logging from Laravel to Matrix/Synapse",
     "type": "library",
     "require": {
-        "meet-kinksters/php-matrix-sdk": "^1.0@dev",
+        "vocphone/laravel-matrix-sdk": "^1.0",
         "monolog/monolog": "^1.12|^2.0|^3.0"
     },
     "license": "MIT",

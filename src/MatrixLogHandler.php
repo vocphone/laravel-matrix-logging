@@ -3,7 +3,8 @@
 namespace Vocphone\LaravelMatrixLogging;
 
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Level;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
 
 class MatrixLogHandler extends AbstractProcessingHandler
@@ -22,6 +23,8 @@ class MatrixLogHandler extends AbstractProcessingHandler
 
     public function __construct(string $roomId, string $level = Logger::DEBUG, bool $bubble = true)
     {
+        parent::__construct($level, $bubble);
+
         $this->roomId = $roomId;
 
         $this->matrixRecord = new MatrixRecord(
@@ -34,9 +37,9 @@ class MatrixLogHandler extends AbstractProcessingHandler
         return $this->matrixRecord;
     }
 
-    public function getChannel(): string
+    public function getRoomId(): string
     {
-        return $this->channel;
+        return $this->roomId;
     }
 
     /**
@@ -44,7 +47,25 @@ class MatrixLogHandler extends AbstractProcessingHandler
      */
     protected function write(array $record): void
     {
-        $message = $record['message'];
+        $message = $this->matrixRecord->getMatrixMessage($record);
+
         MatrixLogger::sendMessage($message, $this->roomId);
+    }
+
+
+    public function setFormatter(FormatterInterface $formatter): HandlerInterface
+    {
+        parent::setFormatter($formatter);
+        $this->matrixRecord->setFormatter($formatter);
+
+        return $this;
+    }
+
+    public function getFormatter(): FormatterInterface
+    {
+        $formatter = parent::getFormatter();
+        $this->matrixRecord->setFormatter($formatter);
+
+        return $formatter;
     }
 }
